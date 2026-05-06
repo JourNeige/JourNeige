@@ -3,23 +3,31 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-
-
 public class JourNeige extends JFrame implements ActionListener {
+    private Vent vent;
+    private Temp temp;
+    private Precip precip;
+
     JLabel villeLabel = new JLabel("Ville: ");
     JTextField villeText = new JTextField(10);
-    JLabel InfoLabel = new JLabel("Infos: ");
-    JTextField InfoText = new JTextField(10);
+    JLabel infoLabel = new JLabel("Infos: ");
+    JTextField infoText = new JTextField(40);
     JButton boutonPredire = new JButton("Prédire");
     GridLayout leGrid = new GridLayout(3, 1);
     FlowLayout leFlow = new FlowLayout();
 
-    public JourNeige() {
+    public JourNeige(Vent vent, Temp temp, Precip precip) {
         super("Jour de Neige");
+        this.vent = vent;
+        this.temp = temp;
+        this.precip = precip;
+
         setLayout(leGrid);
         setSize(600, 400);
-
-        boutonPredire.setPreferredSize(new Dimension(100, 100));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setVisible(true);
 
         JPanel rangee1 = new JPanel();
         rangee1.setBorder(new EmptyBorder(40, 0, 0, 0));
@@ -31,32 +39,33 @@ public class JourNeige extends JFrame implements ActionListener {
         JPanel rangee2 = new JPanel();
         rangee2.setLayout(leFlow);
         rangee2.add(boutonPredire);
+        boutonPredire.setPreferredSize(new Dimension(100, 100));
         boutonPredire.addActionListener(this);
         add(rangee2);
 
-
         JPanel rangee3 = new JPanel();
         rangee3.setBorder(new EmptyBorder(40, 0, 0, 0));
-        rangee3.add(InfoLabel);
-        rangee3.add(InfoText);
+        rangee3.add(infoLabel);
+        rangee3.add(infoText);
         rangee3.setLayout(leFlow);
         add(rangee3);
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
-
 
     public void actionPerformed(ActionEvent actionEvent) {
         if (actionEvent.getSource() == boutonPredire) {
-            JOptionPane.showMessageDialog(this, "Il va neiger demain!");
+            infoText.setText("Vitesse de vent: " + vent.getVent()
+                    + ", Température: " + temp.getTemp()
+                    + ", Précipitations: " + precip.getPrecip());
         }
     }
 
-
-public static void main(String[] args) {
-    JourNeige app = new JourNeige();
+    public static void main(String[] args) {
+        Vent vent = new Vent();
+        vent.setVent(vent.getVent());
+        Temp temp = new Temp();
+        temp.setTemp(temp.getTemp());
+        Precip precip = new Precip();
+        precip.setPrecip(precip.getPrecip());
+        new JourNeige(vent, temp, precip);
     }
 }
