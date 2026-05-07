@@ -2,9 +2,10 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 public class pageAdmin extends JFrame implements ActionListener {
-    private Vent vent;
-    private Temp temp;
-    private Precip precip;
+    public Precip precip;
+    public Temp temp;
+    public Vent vent;
+
 
     JLabel villeEntrez = new JLabel("Entrez la Ville: ");
     JTextField villeEntrezText = new JTextField(10);
@@ -22,11 +23,11 @@ public class pageAdmin extends JFrame implements ActionListener {
     JButton boutonRetour = new JButton("Retour");
 
 
-    public pageAdmin(Vent vent, Temp temp, Precip precip) {
+    public pageAdmin(Precip precip, Temp temp, Vent vent) {
         super("Page Admin");
-        this.vent = vent;
-        this.temp = temp;
         this.precip = precip;
+        this.temp = temp;
+        this.vent = vent;
 
         setLayout(leGrid);
         setSize(600, 400);
@@ -50,20 +51,20 @@ public class pageAdmin extends JFrame implements ActionListener {
 
         JPanel rangee3 = new JPanel();
         rangee3.setLayout(leFlow);
-        rangee3.add(tempEntrez);
-        rangee3.add(tempEntrezText);
+        rangee3.add(precipEntrez);
+        rangee3.add(precipEntrezText);
         add(rangee3);
 
         JPanel rangee4 = new JPanel();
         rangee4.setLayout(leFlow);
-        rangee4.add(ventEntrez);
-        rangee4.add(ventEntrezText);
+        rangee4.add(tempEntrez);
+        rangee4.add(tempEntrezText);
         add(rangee4);
 
         JPanel rangee5 = new JPanel();
         rangee5.setLayout(leFlow);
-        rangee5.add(precipEntrez);
-        rangee5.add(precipEntrezText);
+        rangee5.add(ventEntrez);
+        rangee5.add(ventEntrezText);
         add(rangee5);
 
         JPanel rangee6 = new JPanel();
@@ -76,27 +77,31 @@ public class pageAdmin extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent actionEvent) {
+        int precip1 = 0;
+        int temp1 = 0;
+        int vent1 = 0;
 
         if (actionEvent.getSource() == boutonEntrez) {
-            String ville = villeEntrezText.getText();
-            String postale = postaleEntrezText.getText();
-            int temp = Integer.parseInt(tempEntrezText.getText());
-            int vent = Integer.parseInt(ventEntrezText.getText());
-            int precip = Integer.parseInt(precipEntrezText.getText());
+            String ville1 = villeEntrezText.getText();
+            String postale1 = postaleEntrezText.getText();
+            precip1 = Integer.parseInt(precipEntrezText.getText());
+            temp1 = Integer.parseInt(tempEntrezText.getText());
+            vent1 = Integer.parseInt(ventEntrezText.getText());
+            precip.setPrecip(precip1);
+            temp.setTemp(temp1);
+            vent.setVent(vent1);
+            JOptionPane.showMessageDialog(this, "Données entrées pour " + ville1 + " (" + postale1 + "):\nPrécipitation: " + precip1 + "\nTempérature: " + temp1 + "\nVitesse du Vent: " + vent1);
         }
         if (actionEvent.getSource() == boutonRetour) {
-            new Debut();
+            new Debut(precip, temp, vent);
             dispose();
         }
     }
 
     public static void main(String[] args) {
-        Vent vent = new Vent();
-        vent.setVent(vent.getVent());
-        Temp temp = new Temp();
-        temp.setTemp(temp.getTemp());
         Precip precip = new Precip();
-        precip.setPrecip(precip.getPrecip());
-        new pageAdmin(vent, temp, precip);
+        Temp temp = new Temp();
+        Vent vent = new Vent();
+        new pageAdmin(precip, temp, vent);
     }
 }
