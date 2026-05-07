@@ -3,12 +3,18 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Debut extends JFrame implements ActionListener {
+    public Precip precip;
+    public Temp temp;
+    public Vent vent;
     JLabel labelConnexion = new JLabel("Connexion: ");
     JButton boutonUtilisateur = new JButton("Utilisateur");
     JButton boutonAdmin = new JButton("Admin");
 
-    public Debut() {
+    public Debut(Precip precip, Temp temp, Vent vent) {
         super("Debut");
+        this.vent = vent;
+        this.temp = temp;
+        this.precip = precip;
         setSize(600, 400);
         setLayout(new FlowLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,33 +31,23 @@ public class Debut extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boutonUtilisateur) {
-            Vent vent = new Vent();
-            vent.setVent(vent.getVent());
 
-            Temp temp = new Temp();
-            temp.setTemp(temp.getTemp());
-
-            Precip precip = new Precip();
-            precip.setPrecip(precip.getPrecip());
-
-            new JourNeige(vent, temp, precip);
+            new JourNeige(precip, temp, vent);
             dispose();
-        }
+        } // Ferme la fenêtre actuelle et ouvre la fenêtre utilisateur
         if (e.getSource() == boutonAdmin) {
-            Vent vent = new Vent();
-            vent.setVent(vent.getVent());
-
-            Temp temp = new Temp();
-            temp.setTemp(temp.getTemp());
-
             Precip precip = new Precip();
-            precip.setPrecip(precip.getPrecip());
-            new pageAdmin(vent, temp, precip);
+            Temp temp = new Temp();
+            Vent vent = new Vent();
+            new pageAdmin(precip, temp, vent);
             dispose();
-        }
+        } // Ferme la fenêtre actuelle et ouvre la fenêtre admin
     }
 
     public static void main(String[] args) {
-        new Debut();
+        Precip precip = new Precip();
+        Temp temp = new Temp();
+        Vent vent = new Vent();
+        new Debut(precip, temp, vent);
     }
 }
