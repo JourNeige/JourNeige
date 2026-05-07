@@ -4,9 +4,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class JourNeige extends JFrame implements ActionListener {
-    private Vent vent;
-    private Temp temp;
-    private Precip precip;
+    public Precip precip;
+    public Temp temp;
+    public Vent vent;
 
     JLabel villeLabel = new JLabel("Ville: ");
     JTextField villeText = new JTextField(10);
@@ -16,11 +16,11 @@ public class JourNeige extends JFrame implements ActionListener {
     GridLayout leGrid = new GridLayout(3, 1);
     FlowLayout leFlow = new FlowLayout();
 
-    public JourNeige(Vent vent, Temp temp, Precip precip) {
+    public JourNeige(Precip precip, Temp temp, Vent vent) {
         super("Jour de Neige");
-        this.vent = vent;
-        this.temp = temp;
         this.precip = precip;
+        this.temp = temp;
+        this.vent = vent;
 
         setLayout(leGrid);
         setSize(600, 400);
@@ -53,19 +53,17 @@ public class JourNeige extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent actionEvent) {
         if (actionEvent.getSource() == boutonPredire) {
-            infoText.setText("Vitesse de vent: " + vent.getVent()
+            infoText.setText("Précipitation: " + precip.getPrecip()
                     + ", Température: " + temp.getTemp()
-                    + ", Précipitations: " + precip.getPrecip());
+                    + ", Vitesse du Vent: " + vent.getVent());
         }
     }
 
     public static void main(String[] args) {
-        Vent vent = new Vent();
-        vent.setVent(vent.getVent());
-        Temp temp = new Temp();
-        temp.setTemp(temp.getTemp());
         Precip precip = new Precip();
-        precip.setPrecip(precip.getPrecip());
-        new JourNeige(vent, temp, precip);
-    }
+        Temp temp = new Temp();
+        Vent vent = new Vent();
+
+        new JourNeige(precip, temp, vent);
+    }  
 }
