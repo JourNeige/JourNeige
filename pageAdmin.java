@@ -1,11 +1,13 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import javax.swing.*;
+
 public class pageAdmin extends JFrame implements ActionListener {
     public Precip precip;
     public Temp temp;
     public Vent vent;
-
 
     JLabel villeEntrez = new JLabel("Entrez la Ville: ");
     JTextField villeEntrezText = new JTextField(10);
@@ -22,12 +24,12 @@ public class pageAdmin extends JFrame implements ActionListener {
     FlowLayout leFlow = new FlowLayout();
     JButton boutonRetour = new JButton("Retour");
 
-
     public pageAdmin(Precip precip, Temp temp, Vent vent) {
         super("Page Admin");
         this.precip = precip;
         this.temp = temp;
         this.vent = vent;
+
 
         setLayout(leGrid);
         setSize(600, 400);
@@ -80,9 +82,10 @@ public class pageAdmin extends JFrame implements ActionListener {
         int precip1 = 0;
         int temp1 = 0;
         int vent1 = 0;
+        String ville1 = "";
 
         if (actionEvent.getSource() == boutonEntrez) {
-            String ville1 = villeEntrezText.getText();
+            ville1 = villeEntrezText.getText();
             String postale1 = postaleEntrezText.getText();
             precip1 = Integer.parseInt(precipEntrezText.getText());
             temp1 = Integer.parseInt(tempEntrezText.getText());
@@ -91,6 +94,14 @@ public class pageAdmin extends JFrame implements ActionListener {
             temp.setTemp(temp1);
             vent.setVent(vent1);
             JOptionPane.showMessageDialog(this, "Données entrées pour " + ville1 + " (" + postale1 + "):\nPrécipitation: " + precip1 + "\nTempérature: " + temp1 + "\nVitesse du Vent: " + vent1);
+                try {
+                    FileWriter myWriter = new FileWriter("Donnees.txt", true);
+                    myWriter.write("Ville: " + ville1 + ", Postale: " + postale1 + ", Précipitation: " + precip1 + ", Température: " + temp1 + ", Vitesse du Vent: " + vent1 + "\n");
+                    myWriter.close();
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(this, "Aucun fichier de données trouvé.");
+                    e.printStackTrace();
+                }
         }
         if (actionEvent.getSource() == boutonRetour) {
             new Debut(precip, temp, vent);
@@ -99,9 +110,9 @@ public class pageAdmin extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        Precip precip = new Precip();
-        Temp temp = new Temp();
-        Vent vent = new Vent();
-        new pageAdmin(precip, temp, vent);
+            Precip precip = new Precip();
+            Temp temp = new Temp();
+            Vent vent = new Vent();
+            new pageAdmin(precip, temp, vent);
+        }
     }
-}
