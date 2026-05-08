@@ -1,1 +1,2 @@
-
+Ville: Kanata, Postale: k2wh67, Précipitation: 5656, Température: 67, Vitesse du Vent: 6767
+Ville: Stitsville, Postale: 8y64eg, Précipitation: 6767, Température: 69, Vitesse du Vent: 4206769
