@@ -1,5 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -52,10 +55,41 @@ public class JourNeige extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent actionEvent) {
+        String villeString = villeText.getText();
+        String villeScan = "";
         if (actionEvent.getSource() == boutonPredire) {
-            infoText.setText("Précipitation: " + precip.getPrecip()
-                    + ", Température: " + temp.getTemp()
-                    + ", Vitesse du Vent: " + vent.getVent());
+            File file = new File("Donnees.txt");
+            Scanner scanner = null;
+            try {
+                scanner = new Scanner(file);
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    if (line.contains(villeString)) {
+                        String[] parts = line.split(", ");
+                        villeScan = parts[0].split(": ")[1];
+                        String postale1 = parts[1].split(": ")[1];
+                        int precip1 = Integer.parseInt(parts[2].split(": ")[1]);
+                        int temp1 = Integer.parseInt(parts[3].split(": ")[1]);
+                        int vent1 = Integer.parseInt(parts[4].split(": ")[1]);
+                        precip.setPrecip(precip1);
+                        temp.setTemp(temp1);
+                        vent.setVent(vent1);
+                        System.out.println("Ville trouvée: " + villeScan);
+                        break;
+                        }
+                    }
+            } catch (FileNotFoundException e) {
+                JOptionPane.showMessageDialog(this, "La ville entrée n'a pas été trouvée.");
+            } finally {
+                if (scanner != null) {
+                    scanner.close();
+                }
+            }
+            if (villeScan.equals(villeString)) {
+                infoText.setText("Précipitation: " + precip.getPrecip() + ", Température: " + temp.getTemp() + ", Vitesse du Vent: " + vent.getVent());
+            } else {
+                JOptionPane.showMessageDialog(this, "La ville entrée n'a pas été trouvée.");
+            }
         }
     }
 
@@ -67,3 +101,4 @@ public class JourNeige extends JFrame implements ActionListener {
         new JourNeige(precip, temp, vent);
     }  
 }
+
