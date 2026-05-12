@@ -8,20 +8,24 @@ public class Debut extends JFrame implements ActionListener {
     public Vent vent;
     public Periode periodeDebut;
     public Periode periodeFin;
-    public Jour jour;
+    public Jour jourDebut;
+    public Jour jourFin;
+    public Score score;
 
     JLabel labelConnexion = new JLabel("Connexion: ");
     JButton boutonUtilisateur = new JButton("Utilisateur");
     JButton boutonAdmin = new JButton("Admin");
 
-    public Debut(Precip precip, Temp temp, Vent vent, Periode periodeDebut, Periode periodeFin, Jour jour) {
+    public Debut(Precip precip, Temp temp, Vent vent, Periode periodeDebut, Periode periodeFin, Score score, Jour jourDebut, Jour jourFin) {
         super("Debut");
         this.vent = vent;
         this.temp = temp;
         this.precip = precip;
         this.periodeDebut = periodeDebut;
         this.periodeFin = periodeFin;
-        this.jour = jour;
+        this.jourDebut = jourDebut;
+        this.jourFin = jourFin;
+        this.score = score;
 
         setSize(600, 400);
         setLayout(new FlowLayout());
@@ -39,7 +43,7 @@ public class Debut extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boutonUtilisateur) {
-            new JourNeige(precip, temp, vent, periodeDebut, periodeFin, jour);
+            new JourNeige(precip, temp, vent, periodeDebut, periodeFin, score, jourDebut, jourFin);
             dispose();
         } // Ferme la fenêtre actuelle et ouvre la fenêtre utilisateur
         if (e.getSource() == boutonAdmin) {
@@ -48,8 +52,10 @@ public class Debut extends JFrame implements ActionListener {
             Vent vent = new Vent();
             Periode periodeDebut = new Periode();
             Periode periodeFin = new Periode();
-            Jour jour = new Jour();
-            new pageAdmin(precip, temp, vent, periodeDebut, periodeFin, jour);
+            Jour jourDebut = new Jour();
+            Jour jourFin = new Jour();
+            Score score = new Score();
+            new PageAdmin(precip, temp, vent, periodeDebut, periodeFin, score, jourDebut, jourFin);
             dispose();
         } // Ferme la fenêtre actuelle et ouvre la fenêtre admin
     }
@@ -60,7 +66,9 @@ public class Debut extends JFrame implements ActionListener {
         Vent vent = new Vent();
         Periode periodeDebut = new Periode();
         Periode periodeFin = new Periode();
-        Jour jour = new Jour();
-        new Debut(precip, temp, vent, periodeDebut, periodeFin, jour);
+        Jour jourDebut = new Jour();
+        Jour jourFin = new Jour();
+        Score score = new Score();
+        new Debut(precip, temp, vent, periodeDebut, periodeFin, score, jourDebut, jourFin);
     }
 }
