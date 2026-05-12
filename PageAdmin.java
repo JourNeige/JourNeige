@@ -4,45 +4,50 @@ import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.*;
 
-public class pageAdmin extends JFrame implements ActionListener {
+public class PageAdmin extends JFrame implements ActionListener {
     public Precip precip;
     public Temp temp;
     public Vent vent;
     public Periode periodeDebut;
     public Periode periodeFin;
-    public Jour jour;
+    public Jour jourDebut;
+    public Jour jourFin;
+    public Score score;
 
     JLabel villeEntrez = new JLabel("Entrez la Ville: ");
     JTextField villeEntrezText = new JTextField(10);
-    JLabel postaleEntrez = new JLabel("Entrez la Postale: ");
+    JLabel postaleEntrez = new JLabel("Entrez le code Postale: ");
     JTextField postaleEntrezText = new JTextField(10);
-    JLabel precipEntrez = new JLabel("Entrez la Préciptation: ");
+    JLabel precipEntrez = new JLabel("Entrez la Préciptation en cm: ");
     JTextField precipEntrezText = new JTextField(10);
-    JLabel periodeDebutEntrez = new JLabel("Entrez le Début du neige: ");
+    JLabel periodeDebutEntrez = new JLabel("Entrez l'heure du début des précipitations: ");
     JTextField periodeDebutEntrezText = new JTextField(10);
-    JLabel periodeFinEntrez = new JLabel("Entrez la Fin du neige: ");
+    JButton jourDebutBouton = new JButton("Demain?");
+    JLabel periodeFinEntrez = new JLabel("Entrez l'heure de la fin des précipitations: ");
     JTextField periodeFinEntrezText = new JTextField(10);
-    JLabel tempEntrez = new JLabel("Entrez la Température: ");
+    JButton jourFinBouton = new JButton("Demain?");
+    JLabel tempEntrez = new JLabel("Entrez la Température en celsius: ");
     JTextField tempEntrezText = new JTextField(10);
-    JLabel ventEntrez = new JLabel("Entrez la Vitesse du Vent: ");
+    JLabel ventEntrez = new JLabel("Entrez la Vitesse du Vent en km/h ");
     JTextField ventEntrezText = new JTextField(10);
     JButton boutonEntrez = new JButton("Entrez");
     GridLayout leGrid = new GridLayout(9, 1);
     FlowLayout leFlow = new FlowLayout();
     JButton boutonRetour = new JButton("Retour");
 
-    public pageAdmin(Precip precip, Temp temp, Vent vent, Periode periodeDebut, Periode periodeFin, Jour jour) {
+    public PageAdmin(Precip precip, Temp temp, Vent vent, Periode periodeDebut, Periode periodeFin, Score score, Jour jourDebut, Jour jourFin) {
         super("Page Admin");
         this.precip = precip;
         this.temp = temp;
         this.vent = vent;
         this.periodeDebut = periodeDebut;
         this.periodeFin = periodeFin;
-        this.jour = jour;
-
+        this.jourDebut = jourDebut;
+        this.jourFin = jourFin;
+        this.score = score;
 
         setLayout(leGrid);
-        setSize(600, 400);
+        setSize(1000, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -71,12 +76,16 @@ public class pageAdmin extends JFrame implements ActionListener {
         rangee4.setLayout(leFlow);
         rangee4.add(periodeDebutEntrez);
         rangee4.add(periodeDebutEntrezText);
+        rangee4.add(jourDebutBouton);
+        jourDebutBouton.addActionListener(this);
         add(rangee4);
 
         JPanel rangee5 = new JPanel();
         rangee5.setLayout(leFlow);
         rangee5.add(periodeFinEntrez);
         rangee5.add(periodeFinEntrezText);
+        rangee5.add(jourFinBouton);
+        jourFinBouton.addActionListener(this);
         add(rangee5);
 
         JPanel rangee6 = new JPanel();
@@ -110,7 +119,6 @@ public class pageAdmin extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
 
         if (actionEvent.getSource() == boutonEntrez) {
-            int jour1 = Integer.parseInt(JOptionPane.showInputDialog(this, "Entrez le Jour (1-31):"));
             String ville1 = villeEntrezText.getText();
             String postale1 = postaleEntrezText.getText();
             int precip1 = Integer.parseInt(precipEntrezText.getText());
@@ -123,8 +131,7 @@ public class pageAdmin extends JFrame implements ActionListener {
             periodeFin.setPeriodeFin(periode2);
             temp.setTemp(temp1);
             vent.setVent(vent1);
-            jour.setJour(jour1);
-            JOptionPane.showMessageDialog(this, "Données entrées pour du " + jour1 + "e jour\n" + ville1 + " (" + postale1 + "):\nPrécipitation: " + precip1 + ", Début du Période: " + periode1 + ", Fin du Période: " + periode2 + "\nTempérature: " + temp1 + "\nVitesse du Vent: " + vent1);
+            JOptionPane.showMessageDialog(this, "Données entrées pour du " + ville1 + " (" + postale1 + "):\nPrécipitation: " + precip1 + ", Début du Période: " + periode1 + ", Fin du Période: " + periode2 + "\nTempérature: " + temp1 + "\nVitesse du Vent: " + vent1);
                 try {
                     FileWriter myWriter = new FileWriter("Donnees.txt", true);
                     myWriter.write("Ville: " + ville1 + ", Postale: " + postale1 + ", Précipitation: " + precip1 + ", Début du Période: " + periode1 + ", Fin du Période: " + periode2 + ", Température: " + temp1 + ", Vitesse du Vent: " + vent1 + "\n");
@@ -135,8 +142,16 @@ public class pageAdmin extends JFrame implements ActionListener {
                 }
         }
         if (actionEvent.getSource() == boutonRetour) {
-            new Debut(precip, temp, vent, periodeDebut, periodeFin, jour);
+            new Debut(precip, temp, vent, periodeDebut, periodeFin, score, jourDebut, jourFin);
             dispose();
+        }
+        if (actionEvent.getSource() == jourDebutBouton) {
+            int jourCalculDebut = 1;
+            jourDebut.setJourDebut(jourCalculDebut);
+        }
+        if (actionEvent.getSource() == jourFinBouton) {
+            int jourCalculFin = 0;
+            jourFin.setJourFin(jourCalculFin);
         }
     }
 
@@ -146,7 +161,9 @@ public class pageAdmin extends JFrame implements ActionListener {
             Vent vent = new Vent();
             Periode periodeDebut = new Periode();
             Periode periodeFin = new Periode();
-            Jour jour = new Jour();
-            new pageAdmin(precip, temp, vent, periodeDebut, periodeFin, jour);
+            Jour jourDebut = new Jour();
+            Jour jourFin = new Jour();
+            Score score = new Score();
+            new PageAdmin(precip, temp, vent, periodeDebut, periodeFin, score, jourDebut, jourFin);
         }
     }
