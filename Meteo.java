@@ -3,7 +3,9 @@ public class Meteo {
     int temp;
     int vent;
     int periode;
-    int jour;
+    int score;
+    int jourDebut;
+    int jourFin;
 
     public int getVent() {
         return vent;
@@ -19,8 +21,15 @@ public class Meteo {
         return periode;
     }
 
-    public int getJour() {
-        return jour;
+    public int getJourDebut() {
+        return jourDebut;
     }
 
+    public int getJourFin() {
+        return jourFin;
+    }
+
+    public int getScore() {
+        return score;
+    }
 }
