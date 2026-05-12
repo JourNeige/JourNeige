@@ -12,7 +12,9 @@ public class JourNeige extends JFrame implements ActionListener {
     public Vent vent;
     public Periode periodeDebut;
     public Periode periodeFin;
-    public Jour jour;
+    public Score score;
+    public Jour jourDebut;
+    public Jour jourFin;
 
     JLabel villeLabel = new JLabel("Ville: ");
     JTextField villeText = new JTextField(10);
@@ -22,14 +24,16 @@ public class JourNeige extends JFrame implements ActionListener {
     GridLayout leGrid = new GridLayout(3, 1);
     FlowLayout leFlow = new FlowLayout();
 
-    public JourNeige(Precip precip, Temp temp, Vent vent, Periode periodeDebut, Periode periodeFin, Jour jour) {
+    public JourNeige(Precip precip, Temp temp, Vent vent, Periode periodeDebut, Periode periodeFin, Score score, Jour jourDebut, Jour jourFin) {
         super("Jour de Neige");
         this.precip = precip;
         this.temp = temp;
         this.vent = vent;
         this.periodeDebut = periodeDebut;
         this.periodeFin = periodeFin;
-        this.jour = jour;
+        this.score = score;
+        this.jourDebut = jourDebut;
+        this.jourFin = jourFin;
 
         setLayout(leGrid);
         setSize(600, 400);
@@ -63,7 +67,6 @@ public class JourNeige extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         String villeString = villeText.getText();
         String villeScan = "";
-        int score;
         if (actionEvent.getSource() == boutonPredire) {
             File file = new File("Donnees.txt");
             Scanner scanner = null;
@@ -103,84 +106,240 @@ public class JourNeige extends JFrame implements ActionListener {
             }
 
             if (actionEvent.getSource() == boutonPredire) { //If loop pour calculer le score de neige, si le bouton entrez est cliqué
-                score = 0;
+                int scoreCalcul = 0;
                 int tempCalcul = temp.getTemp();
                 int precipCalcul = precip.getPrecip();
                 int ventCalcul = vent.getVent();
                 int periodeDebutCalcul = periodeDebut.getPeriode();
                 int periodeFinCalcul = periodeFin.getPeriode();
+                int jourCalculDebut = jourDebut.getJourDebut();
+                int jourCalculFin = jourFin.getJourFin();
 
                 // Calcul le score de la température
                 if (tempCalcul <= -50) {
-                    score += 50;
+                    scoreCalcul += 50;
                 } else if (tempCalcul <= -40) {
-                    score += 40;
+                    scoreCalcul += 40;
                 } else if (tempCalcul <= -35) {
-                    score += 25;
+                    scoreCalcul += 25;
                 } else if (tempCalcul <= -30) {
-                    score += 15;
+                    scoreCalcul += 15;
                 } else if (tempCalcul <= -25) {
-                    score += 10;
+                    scoreCalcul += 10;
                 } else if (tempCalcul <= -20) {
-                    score += 5;
+                    scoreCalcul += 5;
                 } else if (tempCalcul <= -15) {
-                    score += 3;
+                    scoreCalcul += 3;
                 } else if (tempCalcul <= -10) {
-                    score += 2;
+                    scoreCalcul += 2;
                 } else if (tempCalcul <= -5) {
-                    score += 1;
+                    scoreCalcul += 1;
                 }
                 // Calcul le score de la précipitation
                 if (precipCalcul >= 30) {
-                    score += 60;
-                    if (periodeDebutCalcul <= 22) {
-                        if (periodeFinCalcul >= 12) {
-                            score += 20;
+                    if (periodeDebutCalcul <= 22 && jourCalculDebut == 0) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 60;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 50;
+                        } else if (periodeFinCalcul >= 4 && jourCalculFin == 1) {
+                            scoreCalcul += 25;
+                        } else if (periodeFinCalcul >= 0 && jourCalculFin == 1) {
+                            scoreCalcul += 10;
+                        } else {
+                            scoreCalcul += 5;
                         }
-                    } else if (periodeDebutCalcul == 0) {
-                        score += 12;
-                    } else if (periodeDebutCalcul == 6) {
-                        score += 6;
+                    } else if (periodeDebutCalcul <= 2 && jourCalculDebut == 1) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 45;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 25;
+                        } else if (periodeFinCalcul >= 4 && jourCalculFin == 1) {
+                            scoreCalcul += 10;
+                        } else {
+                            scoreCalcul += 3;
+                        }
+                    } else if (periodeDebutCalcul <= 6 && jourCalculDebut == 1) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 30;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 10;
+                        } else {
+                            scoreCalcul += 2;
+                        }
                     }
-                } else if (precipCalcul >= 25) {
-                    score += 50;
                 } else if (precipCalcul >= 20) {
-                    score += 45;
-                } else if (precipCalcul >= 17) {
-                    score += 42;
+                    if (periodeDebutCalcul <= 22 && jourCalculDebut == 0) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 45;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 35;
+                        } else if (periodeFinCalcul >= 4 && jourCalculFin == 1) {
+                            scoreCalcul += 20;
+                        } else if (periodeFinCalcul >= 0 && jourCalculFin == 1) {
+                            scoreCalcul += 10;
+                        } else {
+                            scoreCalcul += 5;
+                        }
+                    } else if (periodeDebutCalcul <= 2 && jourCalculDebut == 1) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 30;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 20;
+                        } else if (periodeFinCalcul >= 4 && jourCalculFin == 1) {
+                            scoreCalcul += 10;
+                        } else {
+                            scoreCalcul += 3;
+                        }
+                    } else if (periodeDebutCalcul <= 6 && jourCalculDebut == 1) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 15;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 10;
+                        } else {
+                            scoreCalcul += 2;
+                        }
+                    }
                 } else if (precipCalcul >= 15) {
-                    score += 38;
-                } else if (precipCalcul >= 12) {
-                    score += 37;
+                    if (periodeDebutCalcul <= 22 && jourCalculDebut == 0) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 30;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 20;
+                        } else if (periodeFinCalcul >= 4 && jourCalculFin == 1) {
+                            scoreCalcul += 10;
+                        } else if (periodeFinCalcul >= 0 && jourCalculFin == 1) {
+                            scoreCalcul += 5;
+                        } else {
+                            scoreCalcul += 3;
+                        }
+                    } else if (periodeDebutCalcul <= 2 && jourCalculDebut == 1) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 15;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 10;
+                        } else if (periodeFinCalcul >= 4 && jourCalculFin == 1) {
+                            scoreCalcul += 5;
+                        } else {
+                            scoreCalcul += 2;
+                        }
+                    } else if (periodeDebutCalcul <= 6 && jourCalculDebut == 1) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 10;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 5;
+                        } else {
+                            scoreCalcul += 2;
+                        }
+                    }
                 } else if (precipCalcul >= 10) {
-                    score += 34;
-                } else if (precipCalcul >= 7) {
-                    score += 28;
+                    if (periodeDebutCalcul <= 22 && jourCalculDebut == 0) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 15;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 10;
+                        } else if (periodeFinCalcul >= 4 && jourCalculFin == 1) {
+                            scoreCalcul += 5;
+                        } else if (periodeFinCalcul >= 0 && jourCalculFin == 1) {
+                            scoreCalcul += 3;
+                        } else {
+                            scoreCalcul += 2;
+                        }
+                    } else if (periodeDebutCalcul <= 2 && jourCalculDebut == 1) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 10;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 5;
+                        } else if (periodeFinCalcul >= 4 && jourCalculFin == 1) {
+                            scoreCalcul += 3;
+                        } else {
+                            scoreCalcul += 2;
+                        }
+                    } else if (periodeDebutCalcul <= 6 && jourCalculDebut == 1) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 5;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 3;
+                        } else {
+                            scoreCalcul += 1;
+                        }
+                    }
                 } else if (precipCalcul >= 5) {
-                    score += 23;
-                } else if (precipCalcul >= 3) {
-                    score += 15;
-                } else if (precipCalcul >= 2) {
-                    score += 10;
+                    if (periodeDebutCalcul <= 22 && jourCalculDebut == 0) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 10;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 5;
+                        } else if (periodeFinCalcul >= 4 && jourCalculFin == 1) {
+                            scoreCalcul += 3;
+                        } else if (periodeFinCalcul >= 0 && jourCalculFin == 1) {
+                            scoreCalcul += 2;
+                        } else {
+                            scoreCalcul += 1;
+                        }
+                    } else if (periodeDebutCalcul <= 2 && jourCalculDebut == 1) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 5;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 3;
+                        } else if (periodeFinCalcul >= 4 && jourCalculFin == 1) {
+                            scoreCalcul += 2;
+                        } else {
+                            scoreCalcul += 1;
+                        }
+                    } else if (periodeDebutCalcul <= 6 && jourCalculDebut == 1) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 3;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 2;
+                        } else {
+                            scoreCalcul += 1;
+                        }
+                    }
                 } else if (precipCalcul >= 1) {
-                    score += 7;
+                    if (periodeDebutCalcul <= 22 && jourCalculDebut == 0) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 5;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 3;
+                        } else if (periodeFinCalcul >= 4 && jourCalculFin == 1) {
+                            scoreCalcul += 2;
+                        } else if (periodeFinCalcul >= 0 && jourCalculFin == 1) {
+                            scoreCalcul += 1;
+                        }
+                    } else if (periodeDebutCalcul <= 2 && jourCalculDebut == 1) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 3;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 2;
+                        } else if (periodeFinCalcul >= 4 && jourCalculFin == 1) {
+                            scoreCalcul += 1;
+                        }
+                    } else if (periodeDebutCalcul <= 6 && jourCalculDebut == 1) {
+                        if (periodeFinCalcul >= 12 && jourCalculFin == 1) {
+                            scoreCalcul += 2;
+                        } else if (periodeFinCalcul >=8 && jourCalculFin == 1) {
+                            scoreCalcul += 1;
+                        }
+                    }
                 }
 
                 // Calcul le score de la vitesse du vent
                 if (ventCalcul >= 70) {
-                    score += 30;
+                    scoreCalcul += 30;
                 } else if (ventCalcul >= 50) {
-                    score += 17;
+                    scoreCalcul += 17;
                 } else if (ventCalcul >= 40) {
-                    score += 12;
+                    scoreCalcul += 12;
                 } else if (ventCalcul >= 30) {
-                    score += 8;
+                    scoreCalcul += 8;
                 } else if (ventCalcul >= 20) {
-                    score += 5;
+                    scoreCalcul += 5;
                 } else if (ventCalcul >= 10) {
-                    score += 3;
+                    scoreCalcul += 3;
                 }
-
+                score.setScore(scoreCalcul);
+                System.out.println("Score de neige: " + score.getScore());
             } 
         }
     }
@@ -191,8 +350,9 @@ public class JourNeige extends JFrame implements ActionListener {
         Vent vent = new Vent();
         Periode periodeDebut = new Periode();
         Periode periodeFin = new Periode();
-        Jour jour = new Jour();
-        new JourNeige(precip, temp, vent, periodeDebut, periodeFin, jour);
+        Jour jourDebut = new Jour();
+        Jour jourFin = new Jour();
+        Score score = new Score();
+        new JourNeige(precip, temp, vent, periodeDebut, periodeFin, score, jourDebut, jourFin);
     }  
 }
-
