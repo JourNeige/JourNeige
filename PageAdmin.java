@@ -108,16 +108,16 @@ public class PageAdmin extends JFrame implements ActionListener {
         boutonRetour.addActionListener(this);
         add(rangee8);
 
-        JPanel rangee9 = new JPanel();
-        rangee9.setLayout(leFlow);
-        rangee9.add(boutonEntrez);
-        boutonEntrez.addActionListener(this);
-        rangee9.add(boutonRetour);
-        boutonRetour.addActionListener(this);
-        add(rangee9);
     }
+    int jourCalculDebut = 0;
+    int jourCalculFin = 0;
     public void actionPerformed(ActionEvent actionEvent) {
-
+        if (actionEvent.getSource() == jourDebutBouton) {
+            jourCalculDebut = 1;
+        }
+        if (actionEvent.getSource() == jourFinBouton) {
+            jourCalculFin = 1;
+        }
         if (actionEvent.getSource() == boutonEntrez) {
             String ville1 = villeEntrezText.getText();
             String postale1 = postaleEntrezText.getText();
@@ -126,15 +126,10 @@ public class PageAdmin extends JFrame implements ActionListener {
             int vent1 = Integer.parseInt(ventEntrezText.getText());
             int periode1 = (Integer.parseInt(periodeDebutEntrezText.getText()));
             int periode2 = (Integer.parseInt(periodeFinEntrezText.getText()));
-            precip.setPrecip(precip1);
-            periodeDebut.setPeriodeDebut(periode1);
-            periodeFin.setPeriodeFin(periode2);
-            temp.setTemp(temp1);
-            vent.setVent(vent1);
-            JOptionPane.showMessageDialog(this, "Données entrées pour du " + ville1 + " (" + postale1 + "):\nPrécipitation: " + precip1 + ", Début du Période: " + periode1 + ", Fin du Période: " + periode2 + "\nTempérature: " + temp1 + "\nVitesse du Vent: " + vent1);
+            JOptionPane.showMessageDialog(this, "Données entrées pour du " + ville1 + " (" + postale1 + "):\nPrécipitation: " + precip1 + ", Début du Période: " + periode1 + ", Fin du Période: " + periode2 + "\nTempérature: " + temp1 + "\nVitesse du Vent: " + vent1 + "\nJour 1: " + jourCalculDebut + "\nJour 2: " + jourCalculFin);
                 try {
                     FileWriter myWriter = new FileWriter("Donnees.txt", true);
-                    myWriter.write("Ville: " + ville1 + ", Postale: " + postale1 + ", Précipitation: " + precip1 + ", Début du Période: " + periode1 + ", Fin du Période: " + periode2 + ", Température: " + temp1 + ", Vitesse du Vent: " + vent1 + "\n");
+                    myWriter.write("Ville: " + ville1 + ", Postale: " + postale1 + ", Précipitation: " + precip1 + ", Début du Période: " + periode1 + ", Fin du Période: " + periode2 + ", Température: " + temp1 + ", Vitesse du Vent: " + vent1 + ", Jour 1: " + jourCalculDebut + ", Jour 2: " + jourCalculFin + "\n");
                     myWriter.close();
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(this, "Aucun fichier de données trouvé.");
@@ -144,14 +139,6 @@ public class PageAdmin extends JFrame implements ActionListener {
         if (actionEvent.getSource() == boutonRetour) {
             new Debut(precip, temp, vent, periodeDebut, periodeFin, score, jourDebut, jourFin);
             dispose();
-        }
-        if (actionEvent.getSource() == jourDebutBouton) {
-            int jourCalculDebut = 1;
-            jourDebut.setJourDebut(jourCalculDebut);
-        }
-        if (actionEvent.getSource() == jourFinBouton) {
-            int jourCalculFin = 0;
-            jourFin.setJourFin(jourCalculFin);
         }
     }
 
