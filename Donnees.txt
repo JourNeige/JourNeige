@@ -1,2 +1,7 @@
-Ville: Kanata, Postale: k2wh67, Précipitation: 5656, Température: 67, Vitesse du Vent: 6767
-Ville: Stitsville, Postale: 8y64eg, Précipitation: 6767, Température: 69, Vitesse du Vent: 4206769
+Ville: Kanata, Postale: 13, Précipitation: 51, Début du Période: 10, Fin du Période: 22, Température: 6697, Vitesse du Vent: 697, Jour 1: 0, Jour 2: 1
+Ville: Matzville, Postale: 676767, Précipitation: 56, Début du Période: 1, Fin du Période: 2, Température: 67, Vitesse du Vent: 69, Jour 1: 0, Jour 2: 1
+Ville: Matz, Postale: 6969, Précipitation: 69, Début du Période: 16, Fin du Période: 82, Température: 67, Vitesse du Vent: 69, Jour 1: 0, Jour 2: 1
+Ville: Henryville, Postale: k2w1h8, Précipitation: 56, Début du Période: 21, Fin du Période: 2, Température: -45, Vitesse du Vent: 23, Jour 1: 0, Jour 2: 1
+Ville: asd, Postale: asd, Précipitation: 1, Début du Période: 1, Fin du Période: 1, Température: 1, Vitesse du Vent: 1, Jour 1: 0, Jour 2: 0
+Ville: sdf, Postale: sdf, Précipitation: 1, Début du Période: 1, Fin du Période: 1, Température: 1, Vitesse du Vent: 1, Jour 1: 0, Jour 2: 0
+Ville: Owenville, Postale: 566767, Précipitation: 45, Début du Période: 2, Fin du Période: 12, Température: -67, Vitesse du Vent: 167, Jour 1: 0, Jour 2: 1
